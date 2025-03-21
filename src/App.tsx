@@ -12,6 +12,11 @@ import './App.css';
 import { Button } from './components/Button';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import CanvasHeader from './components/Canvas/CanvasHeader';
+import ZoomControls from './components/Canvas/ZoomContorol';
+import CanvasToolbar, { CanvasTool } from './components/Canvas/CanvasToolbar';
+import CanvasCore from './components/Canvas/CanvasCore';
+import { ColorPicker } from './components/CollortPicker';
 const FeatureCard = ({
   icon,
   title,
@@ -31,13 +36,78 @@ const FeatureCard = ({
     </div>
   );
 };
-
+const colorOptions = [
+  '#0050FF',
+  '#FF3B30',
+  '#34C759',
+  '#FF9500',
+  '#AF52DE',
+  '#000000',
+];
 const App = () => {
   return (
-    <div className="">
+    <div className="flex flex-col items-center space-y-4 p-4 animate-fade-in">
       <Header />
       <main className="container mx-auto px-4 mb-16">
-        <div className="mb-16">{/* <Canvas /> */}</div>
+        <div className="mb-16">
+          {/* <Canvas /> */}
+          <CanvasHeader>
+            <ZoomControls
+              zoomLevel={0}
+              onZoomIn={function (): void {
+                throw new Error('Function not implemented.');
+              }}
+              onZoomOut={function (): void {
+                throw new Error('Function not implemented.');
+              }}
+              onResetView={function (): void {
+                throw new Error('Function not implemented.');
+              }}
+            />
+          </CanvasHeader>
+          <div className="flex flex-row gap-4 w-full">
+            <CanvasToolbar
+              activeTool={'select'}
+              isPanMode={false}
+              canUndo={false}
+              canRedo={false}
+              onToolClick={function (tool: CanvasTool): void {
+                throw new Error('Function not implemented.');
+              }}
+              onPanModeToggle={function (): void {
+                throw new Error('Function not implemented.');
+              }}
+              onUndo={function (): void {
+                throw new Error('Function not implemented.');
+              }}
+              onRedo={function (): void {
+                throw new Error('Function not implemented.');
+              }}
+              onClear={function (): void {
+                throw new Error('Function not implemented.');
+              }}
+              onDownload={function (): void {
+                throw new Error('Function not implemented.');
+              }}
+            />
+            <CanvasCore
+              canvas={undefined}
+              canvasRef={undefined}
+              canvasContainerRef={undefined}
+              activeTool={'select'}
+              activeColor={''}
+              isPanMode={false}
+              fileInputRef={undefined}
+            />
+            <ColorPicker
+              activeColor={''}
+              colorOptions={colorOptions}
+              onColorChange={function (color: string): void {
+                throw new Error('Function not implemented.');
+              }}
+            />
+          </div>
+        </div>
 
         <div className="text-center mb-16 max-w-3xl mx-auto ">
           <h3 className="text-2xl font-semibold mb-3">
