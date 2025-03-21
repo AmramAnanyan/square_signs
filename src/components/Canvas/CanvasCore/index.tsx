@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { CanvasTool } from '../../../constants/toolbarConstants';
 import { PencilBrush } from 'fabric';
+import { Canvas as FabricCanvas } from 'fabric';
 export interface ICanvasCoreProps {
-  //   canvas: FabricCanvas | null;
-  canvas: any;
+  canvas: FabricCanvas | null;
   canvasRef: React.RefObject<HTMLCanvasElement>;
   canvasContainerRef: React.RefObject<HTMLDivElement>;
   activeTool: CanvasTool;
@@ -28,14 +28,14 @@ const CanvasCore = ({
 
     canvas.isDrawingMode = activeTool === CanvasTool.DRAW;
     canvas.freeDrawingBrush = new PencilBrush(canvas);
-    canvas.freeDrawingBrush.color = 'red';
+    canvas.freeDrawingBrush.color = activeColor;
     canvas.freeDrawingBrush.width = 5;
   }, [activeTool, activeColor, canvas, isPanMode]);
-  console.log('hahah');
+
   return (
     <div
       ref={canvasContainerRef}
-      className="canvas-container relative flex-1 bg-white rounded-lg overflow-hidden border border-border animate-scale-in"
+      className="canvas-container relative flex-1 bg-white rounded-lg overflow-hidden border border-border animate-scale-in z-0"
     >
       <canvas ref={canvasRef} className="rounded-lg" />
       <input

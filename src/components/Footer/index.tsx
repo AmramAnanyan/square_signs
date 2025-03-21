@@ -7,7 +7,7 @@ const Footer = () => {
         <div className="flex items-center gap-2 mb-4 md:mb-0">
           <Layers className="h-5 w-5 text-primary" />
           <span className="text-sm text-muted">
-            Interactive Canvas Demo © 2023
+            Interactive Canvas Demo © 2025
           </span>
         </div>
         <div className="text-sm text-muted">

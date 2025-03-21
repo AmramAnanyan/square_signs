@@ -1,5 +1,5 @@
-import { Circle, Text, Canvas as FabricCanvas, Rect, Textbox } from 'fabric';
-import { FC } from 'react';
+import { Circle, Canvas as FabricCanvas, Rect, Textbox } from 'fabric';
+import { CanvasTool } from '../../constants/toolbarConstants';
 export interface IRectangle {
   top: number;
   left: number;
@@ -8,7 +8,7 @@ export interface IRectangle {
   fill: string;
 }
 export const addRectangle = (
-  canvas: FabricCanvas,
+  canvas: FabricCanvas | null,
   options: IRectangle
 ): void => {
   if (!canvas) return;
@@ -23,7 +23,7 @@ export interface ICircle {
   radius: number;
   fill: string;
 }
-export const addCircle = (canvas: FabricCanvas, options: ICircle) => {
+export const addCircle = (canvas: FabricCanvas | null, options: ICircle) => {
   if (!canvas) return;
   const circle = new Circle({
     ...options,
@@ -31,17 +31,14 @@ export const addCircle = (canvas: FabricCanvas, options: ICircle) => {
   canvas.add(circle);
 };
 export interface ITextBox {
-  top: number;
-  left: number;
-  radius: number;
   fill: string;
 }
-export const addTextbox = (canvas: FabricCanvas) => {
+export const addTextbox = (canvas: FabricCanvas | null, options: ITextBox) => {
   if (canvas) {
     const text = new Textbox('Hello, Fabric.js!', {
       top: 200,
       left: 50,
-      fill: 'black',
+      fill: options.fill,
       fontFamily: 'Inter, sans-serif',
       fontSize: 24,
       cornerColor: '#0050FF',
@@ -54,7 +51,7 @@ export const addTextbox = (canvas: FabricCanvas) => {
   }
 };
 
-export const clearCanvas = (canvas: FabricCanvas) => {
+export const clearCanvas = (canvas: FabricCanvas | null) => {
   if (!canvas) return;
   canvas.clear();
 };

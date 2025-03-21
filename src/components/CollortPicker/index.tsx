@@ -3,7 +3,7 @@ import { Check } from 'lucide-react';
 export interface IColorPickerProps {
   activeColor: string;
   colorOptions: string[];
-  onColorChange: (color: string) => void;
+  onColorChange: (color: number) => void;
 }
 
 export const ColorPicker = ({
@@ -17,7 +17,7 @@ export const ColorPicker = ({
         <div className="mb-1 text-xs font-medium text-center text-muted">
           Colors
         </div>
-        {colorOptions.map((color) => (
+        {colorOptions.map((color, index) => (
           <div
             key={color}
             className={`w-6 h-6 relative cursor-pointer border rounded-full ${
@@ -26,7 +26,7 @@ export const ColorPicker = ({
                 : 'border-transparent'
             }`}
             style={{ backgroundColor: color }}
-            onClick={() => onColorChange(color)}
+            onClick={() => onColorChange(index)}
           >
             {color === activeColor && (
               <Check className="h-3 w-3 text-white absolute inset-0 m-auto" />

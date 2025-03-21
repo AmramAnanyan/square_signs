@@ -6,10 +6,61 @@ import CanvasHeader from '../../components/Canvas/CanvasHeader';
 import ZoomControls from '../../components/Canvas/ZoomContorol';
 import { useEffect, useRef, useState } from 'react';
 import { Circle, Text, Canvas as FabricCanvas, Rect, Textbox } from 'fabric';
+import {
+  addCircle,
+  addRectangle,
+  addTextbox,
+  clearCanvas,
+} from '../../utils/canvashelpers/drawHelpers';
+import { Button } from '../../components/Button';
+import DynamicModal from '../../components/Modal';
+import Input from '../../components/Input';
 
 const Canvas2DEditing = () => {
   const [canvas, setCanvas] = useState<FabricCanvas | null>(null);
+  const [activeTool, setActiveTool] = useState(CanvasTool.SELECT);
+  const [activeColor, setActiveColor] = useState(0);
+  const undoStack = useRef<any[]>([]);
+  const redoStack = useRef<any[]>([]);
   const canvasRef = useRef(null);
+  const [redoIndex, setRedoIndex] = useState(1);
+
+  const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (!canvas) return;
+
+    const updateModalPosition = (event: any) => {
+      const obj = event.target || event.selected?.[0];
+      if (!obj) return;
+
+      const boundingBox = obj.getBoundingRect();
+      const canvasRect = canvas.upperCanvasEl.getBoundingClientRect();
+
+      setModalPosition({
+        top: canvasRect.top + boundingBox.top,
+        left: canvasRect.left + boundingBox.left + boundingBox.width,
+      });
+
+      setIsModalOpen(true);
+    };
+
+    canvas.on('selection:created', updateModalPosition);
+    canvas.on('selection:updated', updateModalPosition);
+    canvas.on('object:modified', updateModalPosition);
+
+    canvas.on('selection:cleared', () => {
+      setIsModalOpen(false);
+    });
+
+    return () => {
+      canvas.off('selection:created', updateModalPosition);
+      canvas.off('selection:updated', updateModalPosition);
+      canvas.off('selection:cleared');
+    };
+  }, [canvas]);
+
   useEffect(() => {
     if (canvasRef.current) {
       const initCanvas = new FabricCanvas(canvasRef.current, {
@@ -24,45 +75,78 @@ const Canvas2DEditing = () => {
       };
     }
   }, []);
+
   const handleToolClick = (tool: CanvasTool) => {
-    if (tool === CanvasTool.RECTANGLE) {
-      if (canvas) {
-        const rect = new Rect({
+    console.log(tool, 'tool');
+    undoStack.current.push(canvas?.toJSON());
+    redoStack.current.push(canvas?.toJSON());
+    setActiveTool(tool);
+    switch (tool) {
+      case CanvasTool.SELECT:
+        break;
+      case CanvasTool.DRAW:
+        break;
+      case CanvasTool.RECTANGLE:
+        addRectangle(canvas, {
           top: 100,
-          left: 50,
+          left: 200,
+          fill: COLOR_OPTIONS[activeColor],
           width: 100,
-          height: 60,
-          fill: '#152E51',
+          height: 100,
         });
-        canvas.add(rect);
-      }
-    } else if (tool === CanvasTool.CIRCLE) {
-      if (canvas) {
-        const circle = new Circle({
-          top: 100,
-          left: 50,
+        break;
+      case CanvasTool.CIRCLE:
+        addCircle(canvas, {
+          fill: COLOR_OPTIONS[activeColor],
           radius: 50,
-          fill: '#152E51',
+          top: 105,
+          left: 100,
         });
-        canvas.add(circle);
-      }
-    } else if (tool === CanvasTool.TEXT) {
-      if (canvas) {
-        const text = new Textbox('Edit Me', {
-          top: 200,
-          left: 50,
-          fill: 'black',
-          fontFamily: 'Inter, sans-serif',
-          fontSize: 24,
-          cornerSize: 12,
-          transparentCorners: false,
-        });
-        canvas.add(text);
-      }
+        break;
+      case CanvasTool.TEXT:
+        addTextbox(canvas, { fill: COLOR_OPTIONS[activeColor] });
+        break;
+      case CanvasTool.IMAGE:
+      case CanvasTool.PAN:
+      default:
+        break;
+    }
+  };
+  const handleColorChange = (index: number) => {
+    setActiveColor(index);
+    if (!canvas) return;
+    const activeObject = canvas.getActiveObject();
+    activeObject?.set({ fill: COLOR_OPTIONS[index] });
+    canvas.renderAll();
+  };
+  const undo = () => {
+    if (!canvas) return;
+    setRedoIndex((prev) => (prev += 1));
+    const deletedState = undoStack.current.pop();
+    if (deletedState) {
+      redoStack.current.push(deletedState);
+      canvas.loadFromJSON(deletedState, () => {
+        canvas.requestRenderAll();
+      });
+    }
+  };
+  const redo = () => {
+    if (!canvas) return;
+    if (redoStack.current.length) {
+      console.log(redoIndex, 'redoindex');
+      console.log(redoStack.current, 'redo stack');
+      canvas.loadFromJSON(redoStack.current[redoIndex], () => {
+        canvas.requestRenderAll();
+      });
     }
   };
   return (
     <>
+      <DynamicModal isOpen={isModalOpen} position={modalPosition}>
+        <Input id="Width" label="Width" />
+        <Input id="Height" label="Height" />
+        <Input id="color" label="Color" type="color" />
+      </DynamicModal>
       <CanvasHeader>
         <ZoomControls
           zoomLevel={0}
@@ -79,23 +163,15 @@ const Canvas2DEditing = () => {
       </CanvasHeader>
       <div className="flex flex-row gap-4 w-full">
         <CanvasToolbar
-          activeTool={CanvasTool.SELECT}
+          activeTool={activeTool}
           isPanMode={false}
-          canUndo={false}
-          canRedo={false}
           onToolClick={handleToolClick}
           onPanModeToggle={function (): void {
             throw new Error('Function not implemented.');
           }}
-          onUndo={function (): void {
-            throw new Error('Function not implemented.');
-          }}
-          onRedo={function (): void {
-            throw new Error('Function not implemented.');
-          }}
-          onClear={function (): void {
-            throw new Error('Function not implemented.');
-          }}
+          onUndo={undo}
+          onRedo={redo}
+          onClear={() => clearCanvas(canvas)}
           onDownload={function (): void {
             throw new Error('Function not implemented.');
           }}
@@ -104,17 +180,15 @@ const Canvas2DEditing = () => {
           canvas={canvas}
           canvasRef={canvasRef}
           canvasContainerRef={undefined}
-          activeTool={CanvasTool.SELECT}
-          activeColor={''}
+          activeTool={activeTool}
+          activeColor={COLOR_OPTIONS[activeColor]}
           isPanMode={false}
           fileInputRef={undefined}
         />
         <ColorPicker
-          activeColor={''}
+          activeColor={COLOR_OPTIONS[activeColor]}
           colorOptions={COLOR_OPTIONS}
-          onColorChange={function (color: string): void {
-            throw new Error('Function not implemented.');
-          }}
+          onColorChange={handleColorChange}
         />
       </div>
     </>
