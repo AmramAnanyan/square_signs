@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
-import { CanvasTool } from '../CanvasToolbar';
+import { CanvasTool } from '../../../constants/toolbarConstants';
+import { PencilBrush } from 'fabric';
 export interface ICanvasCoreProps {
   //   canvas: FabricCanvas | null;
   canvas: any;
@@ -25,22 +26,12 @@ const CanvasCore = ({
   useEffect(() => {
     if (!canvas) return;
 
-    canvas.isDrawingMode = activeTool === 'draw';
-
-    if (activeTool === 'draw' && canvas.freeDrawingBrush) {
-      canvas.freeDrawingBrush.color = activeColor;
-      canvas.freeDrawingBrush.width = 3;
-    }
-
-    if (isPanMode) {
-      canvas.defaultCursor = 'grab';
-      canvas.hoverCursor = 'grab';
-    } else {
-      canvas.defaultCursor = 'default';
-      canvas.hoverCursor = 'move';
-    }
+    canvas.isDrawingMode = activeTool === CanvasTool.DRAW;
+    canvas.freeDrawingBrush = new PencilBrush(canvas);
+    canvas.freeDrawingBrush.color = 'red';
+    canvas.freeDrawingBrush.width = 5;
   }, [activeTool, activeColor, canvas, isPanMode]);
-
+  console.log('hahah');
   return (
     <div
       ref={canvasContainerRef}

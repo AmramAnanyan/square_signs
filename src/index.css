@@ -8,6 +8,7 @@
   --primary: 210 100% 50%;
   --secondary: #c8d6ff;
   --radius: 0.625rem;
+  --muted-foreground: #64748b;
 }
 
 .dark {
@@ -26,4 +27,12 @@
 .canvas-container {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+}
+
+.muted {
+  color: #64748b;
+}
+
+.primary {
+  color: #3388ff;
 }

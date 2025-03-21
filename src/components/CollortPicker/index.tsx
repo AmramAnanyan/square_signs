@@ -14,7 +14,7 @@ export const ColorPicker = ({
   return (
     <div className="glass-panel p-3 flex flex-col items-center gap-3 animate-fade-in w-16">
       <div className="flex flex-col gap-3">
-        <div className="mb-1 text-xs font-medium text-center text-muted-foreground">
+        <div className="mb-1 text-xs font-medium text-center text-muted">
           Colors
         </div>
         {colorOptions.map((color) => (

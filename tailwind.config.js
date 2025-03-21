@@ -30,6 +30,7 @@ module.exports = {
         foreground: 'var(--foreground)',
         primary: 'hsl(var(--primary))',
         secondary: 'var(--secondary)',
+        muted: 'var(--muted-foreground)',
       },
       fontFamily: {
         sans: ['Inter var', 'SF Pro Display', 'system-ui', 'sans-serif'],

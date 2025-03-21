@@ -21,10 +21,11 @@ const ToolbarButton = ({
       title={title}
     >
       <div
-        className={`  h-5 w-5${
-          active ? 'text-primary' : 'text-muted-foreground'
+        className={` cursor-pointer h-5 w-5 ${
+          active ? 'text-primary' : 'text-muted'
         }   
-          ${disabled && 'text-muted-foreground/30'}} `}
+          ${disabled && 'text-muted'} `}
+        style={{ color: `${active ? 'primary' : 'muted'}` }}
       >
         {icon}
       </div>

@@ -1,22 +1,7 @@
-import {
-  Cpu,
-  FileCode,
-  Layers,
-  Lightbulb,
-  MousePointer,
-  Move,
-  Paintbrush,
-  ZoomIn,
-} from 'lucide-react';
 import './App.css';
-import { Button } from './components/Button';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import CanvasHeader from './components/Canvas/CanvasHeader';
-import ZoomControls from './components/Canvas/ZoomContorol';
-import CanvasToolbar, { CanvasTool } from './components/Canvas/CanvasToolbar';
-import CanvasCore from './components/Canvas/CanvasCore';
-import { ColorPicker } from './components/CollortPicker';
+import Canvas2DEditor from './pages/2DCanvasEditor';
 const FeatureCard = ({
   icon,
   title,
@@ -32,26 +17,19 @@ const FeatureCard = ({
         {icon}
       </div>
       <h4 className="text-lg font-medium mb-2">{title}</h4>
-      <p className="text-sm text-muted-foreground">{description}</p>
+      <p className="text-sm text-muted">{description}</p>
     </div>
   );
 };
-const colorOptions = [
-  '#0050FF',
-  '#FF3B30',
-  '#34C759',
-  '#FF9500',
-  '#AF52DE',
-  '#000000',
-];
+
 const App = () => {
   return (
-    <div className="flex flex-col items-center space-y-4 p-4 animate-fade-in">
+    <div>
       <Header />
-      <main className="container mx-auto px-4 mb-16">
-        <div className="mb-16">
-          {/* <Canvas /> */}
-          <CanvasHeader>
+
+      {/* <Canvas /> */}
+      <Canvas2DEditor />
+      {/* <CanvasHeader>
             <ZoomControls
               zoomLevel={0}
               onZoomIn={function (): void {
@@ -101,19 +79,18 @@ const App = () => {
             />
             <ColorPicker
               activeColor={''}
-              colorOptions={colorOptions}
+              colorOptions={COLOR_OPTIONS}
               onColorChange={function (color: string): void {
                 throw new Error('Function not implemented.');
               }}
             />
-          </div>
-        </div>
+          </div> */}
 
-        <div className="text-center mb-16 max-w-3xl mx-auto ">
+      {/* <div className="text-center mb-16 max-w-3xl mx-auto ">
           <h3 className="text-2xl font-semibold mb-3">
             Technical Requirements
           </h3>
-          <p className="text-muted-foreground mb-8">
+          <p className="text-muted mb-8">
             This application demonstrates best practices in canvas
             implementation, with a focus on performance and user experience.
           </p>
@@ -159,7 +136,7 @@ const App = () => {
 
         <div className="glass-panel p-8 max-w-3xl mx-auto">
           <h3 className="text-xl font-semibold mb-3">Implementation Details</h3>
-          <p className="text-muted-foreground mb-6">
+          <p className="text-muted mb-6">
             This application leverages Fabric.js for the canvas implementation,
             with custom optimizations for performance:
           </p>
@@ -201,8 +178,8 @@ const App = () => {
               </span>
             </li>
           </ul>
-        </div>
-      </main>
+        </div> */}
+
       <Footer />
     </div>
   );
