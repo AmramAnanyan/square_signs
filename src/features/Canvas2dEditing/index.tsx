@@ -1,17 +1,20 @@
 import { ColorPicker } from '../../components/CollortPicker';
-import { CanvasTool, COLOR_OPTIONS } from '../../constants/toolbarConstants';
+import {
+  CanvasTool,
+  COLOR_OPTIONS,
+  DownloadTypes,
+} from '../../constants/toolbarConstants';
 import CanvasCore from '../../components/Canvas/CanvasCore';
 import CanvasToolbar from '../../components/Canvas/CanvasToolbar';
 import CanvasHeader from '../../components/Canvas/CanvasHeader';
 import ZoomControls from '../../components/Canvas/ZoomContorol';
-import { useEffect, useRef, useState } from 'react';
-import { Circle, Text, Canvas as FabricCanvas, Rect, Textbox } from 'fabric';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { Canvas as FabricCanvas } from 'fabric';
 import {
   addCircle,
   addRectangle,
   addTextbox,
   clearCanvas,
-  useAddImage,
 } from '../../utils/canvashelpers/drawHelpers';
 import DynamicModal from '../../components/Modal';
 import { useUpdateSettingsModalPosition } from '../../utils/hooks/useUpdateSettingsModalPossition';
@@ -20,6 +23,13 @@ import {
   ALLOWED_SHAPES,
   AllowedShapes,
 } from '../../components/ShapesSettings/constants';
+import { useAddImage } from '../../utils/hooks/useAddImage';
+import useAddSvg from '../../utils/hooks/useAddSvg';
+import {
+  downloadJPEG,
+  downloadPNG,
+  downloadWebp,
+} from '../../utils/helpers/global';
 
 const Canvas2DEditing = () => {
   const [canvas, setCanvas] = useState<FabricCanvas | null>(null);
@@ -29,9 +39,12 @@ const Canvas2DEditing = () => {
   const redoStack = useRef<any[]>([]);
   const canvasRef = useRef(null);
   const [redoIndex, setRedoIndex] = useState(1);
-  const fileInputRef = useRef<null | HTMLInputElement>(null);
+  const imageFileRef = useRef<null | HTMLInputElement>(null);
   const [fileState, setFileState] = useState<File | null>(null);
+  const svgFileRef = useRef<null | HTMLInputElement>(null);
+  const [svgFileState, setSvgFileState] = useState<File | null>(null);
   useAddImage(canvas, fileState);
+  useAddSvg(canvas, svgFileState);
   const {
     isOpen: isModalOpen,
     position: modalPosition,
@@ -80,15 +93,23 @@ const Canvas2DEditing = () => {
         addTextbox(canvas, { fill: COLOR_OPTIONS[activeColor] });
         break;
       case CanvasTool.IMAGE:
-        if (fileInputRef.current) {
-          fileInputRef.current.click();
-          fileInputRef.current.addEventListener('change', (e) => {
+        if (imageFileRef.current) {
+          imageFileRef.current.click();
+          imageFileRef.current.addEventListener('change', (e) => {
             //@ts-ignore
             setFileState(e.target.files[0]);
           });
         }
         break;
-      case CanvasTool.PAN:
+      case CanvasTool.SVG:
+        if (svgFileRef.current) {
+          svgFileRef.current.click();
+          svgFileRef.current.addEventListener('change', (e) => {
+            //@ts-ignore
+            setSvgFileState(e.target.files[0]);
+          });
+        }
+        break;
       default:
         break;
     }
@@ -119,6 +140,23 @@ const Canvas2DEditing = () => {
       });
     }
   };
+  const handleDownload = useCallback(
+    (type: DownloadTypes) => {
+      switch (type) {
+        case DownloadTypes.JPEG:
+          downloadJPEG(canvas);
+          break;
+        case DownloadTypes.PNG:
+          downloadPNG(canvas);
+          break;
+        case DownloadTypes.WEBP:
+          downloadWebp(canvas);
+          break;
+        default:
+      }
+    },
+    [canvas]
+  );
   return (
     <>
       {ALLOWED_SHAPES[activeShape as AllowedShapes] && (
@@ -150,11 +188,7 @@ const Canvas2DEditing = () => {
       <div className="flex flex-row gap-4 w-full">
         <CanvasToolbar
           activeTool={activeTool}
-          isPanMode={false}
           onToolClick={handleToolClick}
-          onPanModeToggle={function (): void {
-            throw new Error('Function not implemented.');
-          }}
           onUndo={undo}
           onRedo={redo}
           onClear={() => {
@@ -162,18 +196,15 @@ const Canvas2DEditing = () => {
             undoStack.current = [];
             redoStack.current = [];
           }}
-          onDownload={function (): void {
-            throw new Error('Function not implemented.');
-          }}
+          onDownload={handleDownload}
         />
         <CanvasCore
           canvas={canvas}
           canvasRef={canvasRef}
-          canvasContainerRef={undefined}
           activeTool={activeTool}
           activeColor={COLOR_OPTIONS[activeColor]}
-          isPanMode={false}
-          fileInputRef={fileInputRef}
+          imageFileRef={imageFileRef}
+          svgFileRef={svgFileRef}
         />
         <ColorPicker
           activeColor={COLOR_OPTIONS[activeColor]}

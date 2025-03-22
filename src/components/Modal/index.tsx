@@ -2,7 +2,7 @@ import { FC, ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 export interface IDynamicModal {
   isOpen: boolean;
-  position: { top: number; left: number };
+  position: { top: number; left: number; bottom?: number; right?: number };
   children: ReactNode;
 }
 const DynamicModal: FC<IDynamicModal> = ({ isOpen, position, children }) => {
@@ -10,7 +10,7 @@ const DynamicModal: FC<IDynamicModal> = ({ isOpen, position, children }) => {
 
   return createPortal(
     <div
-      className="absolute bg-white p-3 shadow-lg rounded-md"
+      className="absolute bg-white p-3 shadow-lg rounded-md transition-all"
       style={{
         top: position.top,
         left: position.left,

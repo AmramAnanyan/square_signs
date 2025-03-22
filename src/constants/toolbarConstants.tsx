@@ -18,7 +18,7 @@ export const enum CanvasTool {
   CIRCLE = 'circle',
   TEXT = 'text',
   IMAGE = 'image',
-  PAN = 'pan',
+  SVG = 'svg',
 }
 export const enum CanvasAction {
   UNDO = 'undo',
@@ -34,7 +34,11 @@ export const TOOL_BAR_GROUPS = [
   { icon: <ImageIcon />, tool: CanvasTool.IMAGE, title: 'Image' },
   { icon: <Pencil />, tool: CanvasTool.DRAW, title: 'Draw' },
 
-  { icon: <Hand />, tool: CanvasTool.PAN, title: 'Pan Canvas' },
+  {
+    icon: <div className="text-center text-sm font-bold">SVG</div>,
+    tool: CanvasTool.SVG,
+    title: 'SVG',
+  },
 
   { icon: <Undo />, action: CanvasAction.UNDO, title: 'Undo' },
   { icon: <Redo />, action: CanvasAction.REDO, title: 'Redo' },
@@ -50,4 +54,15 @@ export const COLOR_OPTIONS = [
   '#FF9500',
   '#AF52DE',
   '#000000',
+];
+
+export const enum DownloadTypes {
+  PNG = 'png',
+  WEBP = 'webp',
+  JPEG = 'jpeg',
+}
+export const DOWNLOAD_POP = [
+  { type: DownloadTypes.JPEG, title: 'JPEG' },
+  { type: DownloadTypes.PNG, title: 'PNG' },
+  { type: DownloadTypes.WEBP, title: 'WEBP' },
 ];

@@ -1,13 +1,6 @@
-import {
-  Circle,
-  Canvas as FabricCanvas,
-  FabricImage,
-  Image,
-  Rect,
-  Textbox,
-} from 'fabric';
-import { RefObject, useEffect } from 'react';
-import { fileToUrl, scaleImage } from '../helpers/global';
+import { Circle, Canvas as FabricCanvas, Image, Rect, Textbox } from 'fabric';
+import { useEffect } from 'react';
+import { scaleImage } from '../helpers/global';
 export const enum ShapesValues {
   WIDTH = 100,
   HEIGHT = 100,
@@ -72,29 +65,4 @@ export const clearCanvas = (canvas: FabricCanvas | null) => {
 
 export const addImage = (canvas: FabricCanvas | null) => {
   if (!canvas) return;
-};
-
-export const useAddImage = (canvas: FabricCanvas | null, file: null | File) => {
-  useEffect(() => {
-    if (file && canvas) {
-      fileToUrl(file, (url) => {
-        if (typeof url === 'string') {
-          const image = Image.fromURL(url).then((img) => {
-            img.set({
-              left: 100,
-              top: 100,
-              originX: 'center',
-              originY: 'center',
-            });
-            const scale = scaleImage(img, 200, 200);
-            img.set({
-              scaleX: scale,
-              scaleY: scale,
-            });
-            if (canvas) canvas.add(img);
-          });
-        }
-      });
-    }
-  }, [canvas, file]);
 };

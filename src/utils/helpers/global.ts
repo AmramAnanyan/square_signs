@@ -1,19 +1,7 @@
-import { Image } from 'fabric';
-export const fileToUrl = (
-  file: File,
-  callback: (url: string | ArrayBuffer | null | undefined) => void
-) => {
-  const fileReader = new FileReader();
-  fileReader.onload = (event) => {
-    callback(event.target?.result);
-  };
-  if (file) {
-    fileReader.readAsDataURL(file);
-  }
-};
+import { Image, Canvas } from 'fabric';
 
 export const scaleImage = (
-  img: Image,
+  img: Image | any,
   targetWidth: number,
   targetHeight: number
 ) => {
@@ -21,4 +9,28 @@ export const scaleImage = (
   const scaleY = targetHeight / img.height;
   const scale = Math.min(scaleX, scaleY);
   return scale;
+};
+export const createDownloadLink = (name: string, href: string) => {
+  console.log('worked createDownloadLink');
+  const link = document.createElement('a');
+  link.href = href;
+  link.download = name;
+  link.click();
+};
+export const downloadWebp = (canvas: Canvas | null) => {
+  console.log(canvas, 'worked swg');
+  if (!canvas) return;
+  const dataUrl = canvas.toDataURL({ format: 'webp', multiplier: 1 });
+  createDownloadLink('canvas_img.png', dataUrl);
+};
+
+export const downloadPNG = (canvas: Canvas | null) => {
+  if (!canvas) return;
+  const dataUrl = canvas.toDataURL({ format: 'png', multiplier: 1 });
+  createDownloadLink('canvas_img.png', dataUrl);
+};
+export const downloadJPEG = (canvas: Canvas | null) => {
+  if (!canvas) return;
+  const dataUrl = canvas.toDataURL({ format: 'jpeg', multiplier: 1 });
+  createDownloadLink('canvas_img.jpeg', dataUrl);
 };

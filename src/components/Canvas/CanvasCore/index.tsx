@@ -1,28 +1,26 @@
-import { useEffect } from 'react';
+import { ChangeEvent, RefObject, useEffect } from 'react';
 import { CanvasTool } from '../../../constants/toolbarConstants';
 import { PencilBrush } from 'fabric';
 import { Canvas as FabricCanvas } from 'fabric';
 export interface ICanvasCoreProps {
   canvas: FabricCanvas | null;
-  canvasRef: React.RefObject<HTMLCanvasElement>;
-  canvasContainerRef: React.RefObject<HTMLDivElement>;
+  canvasRef: RefObject<HTMLCanvasElement | null>;
   activeTool: CanvasTool;
   activeColor: string;
-  isPanMode: boolean;
   zoomLevel?: number;
-  fileInputRef: React.RefObject<HTMLInputElement>;
-  handleFileSelect?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  imageFileRef: RefObject<HTMLInputElement | null>;
+  svgFileRef: RefObject<HTMLInputElement | null>;
+  handleFileSelect?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const CanvasCore = ({
   canvas,
   canvasRef,
-  canvasContainerRef,
   activeTool,
   activeColor,
-  isPanMode,
-  fileInputRef,
-}: any) => {
+  imageFileRef,
+  svgFileRef,
+}: ICanvasCoreProps) => {
   useEffect(() => {
     if (!canvas) return;
 
@@ -30,19 +28,22 @@ const CanvasCore = ({
     canvas.freeDrawingBrush = new PencilBrush(canvas);
     canvas.freeDrawingBrush.color = activeColor;
     canvas.freeDrawingBrush.width = 5;
-  }, [activeTool, activeColor, canvas, isPanMode]);
+  }, [activeTool, activeColor, canvas]);
 
   return (
-    <div
-      ref={canvasContainerRef}
-      className="canvas-container relative flex-1 bg-white rounded-lg overflow-hidden border border-border animate-scale-in z-0"
-    >
+    <div className="canvas-container relative flex-1 bg-white rounded-lg overflow-hidden border border-border animate-scale-in z-0">
       <canvas ref={canvasRef} className="rounded-lg" />
       <input
         type="file"
-        ref={fileInputRef}
+        ref={imageFileRef}
         style={{ display: 'none' }}
-        accept=".png,.jpg,.jpeg,.svg"
+        accept=".png,.jpg,.jpeg,"
+      />
+      <input
+        type="file"
+        ref={svgFileRef}
+        style={{ display: 'none' }}
+        accept=".svg,"
       />
     </div>
   );
