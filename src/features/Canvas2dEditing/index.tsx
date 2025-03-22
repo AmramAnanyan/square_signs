@@ -19,11 +19,11 @@ import {
 } from '../../utils/canvashelpers/drawHelpers';
 import DynamicModal from '../../components/Modal';
 import { useUpdateSettingsModalPosition } from '../../utils/hooks/useUpdateSettingsModalPossition';
-import ShapeSettings from '../../components/ShapesSettings';
+import ShapeSettings from '../../entities/ui/ShapesSettings';
 import {
   ALLOWED_SHAPES,
   AllowedShapes,
-} from '../../components/ShapesSettings/constants';
+} from '../../entities/ui/ShapesSettings/constants';
 import { useAddImage } from '../../utils/hooks/useAddImage';
 import useAddSvg from '../../utils/hooks/useAddSvg';
 import {

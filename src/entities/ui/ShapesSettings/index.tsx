@@ -1,9 +1,9 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react';
-import Input from '../Input';
+import Input from '../../../components/Input';
 import { ALLOWED_SHAPES, AllowedShapes, SETTINGS_SELECTION } from './constants';
 import { Canvas } from 'fabric';
-import { ShapesValues } from '../../utils/canvashelpers/drawHelpers';
-import { CanvasTool } from '../../constants/toolbarConstants';
+import { ShapesValues } from '../../../utils/canvashelpers/drawHelpers';
+import { CanvasTool } from '../../../constants/toolbarConstants';
 export interface IShapeSettingsProps {
   shape: AllowedShapes;
   canvas: Canvas | null;
