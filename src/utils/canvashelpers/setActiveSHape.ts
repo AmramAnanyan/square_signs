@@ -4,7 +4,7 @@ import { CanvasTool } from '../../constants/toolbarConstants';
 
 const setActiveShape = (
   obj: Rect | Circle | Textbox,
-  callback: (tool: AllowedShapes) => void
+  callback: (tool: AllowedShapes | CanvasTool.SELECT) => void
 ) => {
   if (obj instanceof Rect) {
     callback(CanvasTool.RECTANGLE);
@@ -12,6 +12,8 @@ const setActiveShape = (
     callback(CanvasTool.CIRCLE);
   } else if (obj instanceof Textbox) {
     callback(CanvasTool.TEXT);
+  } else {
+    callback(CanvasTool.SELECT);
   }
 };
 export default setActiveShape;

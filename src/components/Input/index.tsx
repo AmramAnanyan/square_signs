@@ -19,6 +19,7 @@ const Input: FC<InputProps> = ({ id, label, className, ...props }) => {
         {...props}
         id={id}
         className={`
+          min-h-10
           block w-full px-3 py-2 text-sm
           rounded-lg border-2
           focus:outline-none focus:ring-0

@@ -31,7 +31,7 @@ const CanvasToolbar = ({
     <div className="glass-panel p-5 flex flex-col items-center justify-center gap-7 animate-fade-in">
       {TOOL_BAR_GROUPS.map((btn, index) => {
         return (
-          <div className="relative">
+          <div className="relative" key={index}>
             <ToolbarButton
               key={index}
               icon={btn.icon}

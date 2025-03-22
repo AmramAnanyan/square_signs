@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Canvas, Circle, Rect, Textbox } from 'fabric';
+import { Canvas } from 'fabric';
 import { CanvasTool } from '../../constants/toolbarConstants';
-import { AllowedShapes } from '../../components/ShapesSettings/constants';
 import setActiveShape from '../canvashelpers/setActiveSHape';
 
 const useUpdateSettingsModalPosition = (canvas: Canvas | null) => {
@@ -16,7 +15,6 @@ const useUpdateSettingsModalPosition = (canvas: Canvas | null) => {
 
       if (!obj) return;
       setActiveShape(obj, setActivatedShape);
-
       const boundingBox = obj.getBoundingRect();
       const canvasRect = canvas.upperCanvasEl.getBoundingClientRect();
 

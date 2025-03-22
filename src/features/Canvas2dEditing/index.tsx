@@ -11,11 +11,15 @@ import {
   addRectangle,
   addTextbox,
   clearCanvas,
+  useAddImage,
 } from '../../utils/canvashelpers/drawHelpers';
 import DynamicModal from '../../components/Modal';
 import { useUpdateSettingsModalPosition } from '../../utils/hooks/useUpdateSettingsModalPossition';
 import ShapeSettings from '../../components/ShapesSettings';
-import { AllowedShapes } from '../../components/ShapesSettings/constants';
+import {
+  ALLOWED_SHAPES,
+  AllowedShapes,
+} from '../../components/ShapesSettings/constants';
 
 const Canvas2DEditing = () => {
   const [canvas, setCanvas] = useState<FabricCanvas | null>(null);
@@ -25,6 +29,9 @@ const Canvas2DEditing = () => {
   const redoStack = useRef<any[]>([]);
   const canvasRef = useRef(null);
   const [redoIndex, setRedoIndex] = useState(1);
+  const fileInputRef = useRef<null | HTMLInputElement>(null);
+  const [fileState, setFileState] = useState<File | null>(null);
+  useAddImage(canvas, fileState);
   const {
     isOpen: isModalOpen,
     position: modalPosition,
@@ -60,14 +67,11 @@ const Canvas2DEditing = () => {
           top: 100,
           left: 200,
           fill: COLOR_OPTIONS[activeColor],
-          width: 100,
-          height: 100,
         });
         break;
       case CanvasTool.CIRCLE:
         addCircle(canvas, {
           fill: COLOR_OPTIONS[activeColor],
-          radius: 50,
           top: 105,
           left: 100,
         });
@@ -76,6 +80,14 @@ const Canvas2DEditing = () => {
         addTextbox(canvas, { fill: COLOR_OPTIONS[activeColor] });
         break;
       case CanvasTool.IMAGE:
+        if (fileInputRef.current) {
+          fileInputRef.current.click();
+          fileInputRef.current.addEventListener('change', (e) => {
+            //@ts-ignore
+            setFileState(e.target.files[0]);
+          });
+        }
+        break;
       case CanvasTool.PAN:
       default:
         break;
@@ -102,24 +114,25 @@ const Canvas2DEditing = () => {
   const redo = () => {
     if (!canvas) return;
     if (redoStack.current.length) {
-      console.log(redoIndex, 'redoindex');
-      console.log(redoStack.current, 'redo stack');
       canvas.loadFromJSON(redoStack.current[redoIndex], () => {
         canvas.requestRenderAll();
       });
     }
   };
-  console.log(activeTool, 'active');
   return (
     <>
-      <DynamicModal isOpen={isModalOpen} position={modalPosition}>
-        <ShapeSettings
-          shape={activeShape as AllowedShapes}
-          onChange={({ name, value }) => {
-            console.log({ name, value });
-          }}
-        />
-      </DynamicModal>
+      {ALLOWED_SHAPES[activeShape as AllowedShapes] && (
+        <DynamicModal isOpen={isModalOpen} position={modalPosition}>
+          <ShapeSettings
+            shape={activeShape as AllowedShapes}
+            onChange={({ name, value }) => {
+              console.log({ name, value });
+            }}
+            canvas={canvas}
+            activeColor={COLOR_OPTIONS[activeColor]}
+          />
+        </DynamicModal>
+      )}
       <CanvasHeader>
         <ZoomControls
           zoomLevel={0}
@@ -144,7 +157,11 @@ const Canvas2DEditing = () => {
           }}
           onUndo={undo}
           onRedo={redo}
-          onClear={() => clearCanvas(canvas)}
+          onClear={() => {
+            clearCanvas(canvas);
+            undoStack.current = [];
+            redoStack.current = [];
+          }}
           onDownload={function (): void {
             throw new Error('Function not implemented.');
           }}
@@ -156,7 +173,7 @@ const Canvas2DEditing = () => {
           activeTool={activeTool}
           activeColor={COLOR_OPTIONS[activeColor]}
           isPanMode={false}
-          fileInputRef={undefined}
+          fileInputRef={fileInputRef}
         />
         <ColorPicker
           activeColor={COLOR_OPTIONS[activeColor]}
