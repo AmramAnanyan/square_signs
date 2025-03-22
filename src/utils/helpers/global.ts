@@ -1,4 +1,5 @@
 import { Image, Canvas } from 'fabric';
+import { DownloadTypes } from '../../constants/toolbarConstants';
 
 export const scaleImage = (
   img: Image | any,
@@ -33,4 +34,23 @@ export const downloadJPEG = (canvas: Canvas | null) => {
   if (!canvas) return;
   const dataUrl = canvas.toDataURL({ format: 'jpeg', multiplier: 1 });
   createDownloadLink('canvas_img.jpeg', dataUrl);
+};
+
+export const downloadCanvasAsImage = (
+  type: DownloadTypes,
+  canvas: Canvas | null
+) => {
+  if (!canvas) return;
+  switch (type) {
+    case DownloadTypes.JPEG:
+      downloadJPEG(canvas);
+      break;
+    case DownloadTypes.PNG:
+      downloadPNG(canvas);
+      break;
+    case DownloadTypes.WEBP:
+      downloadWebp(canvas);
+      break;
+    default:
+  }
 };

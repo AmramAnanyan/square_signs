@@ -1,6 +1,14 @@
-import { Circle, Canvas as FabricCanvas, Image, Rect, Textbox } from 'fabric';
+import {
+  Circle,
+  Canvas as FabricCanvas,
+  Image,
+  Rect,
+  Textbox,
+  util,
+} from 'fabric';
 import { useEffect } from 'react';
 import { scaleImage } from '../helpers/global';
+import { CanvasTool } from '../../constants/toolbarConstants';
 export const enum ShapesValues {
   WIDTH = 100,
   HEIGHT = 100,
@@ -65,4 +73,32 @@ export const clearCanvas = (canvas: FabricCanvas | null) => {
 
 export const addImage = (canvas: FabricCanvas | null) => {
   if (!canvas) return;
+};
+
+export const drawGeometricFigureTools = (
+  canvas: FabricCanvas | null,
+  tool: CanvasTool,
+  fill: string
+) => {
+  switch (tool) {
+    case CanvasTool.RECTANGLE:
+      addRectangle(canvas, {
+        top: 100,
+        left: 200,
+        fill: fill,
+      });
+      break;
+    case CanvasTool.CIRCLE:
+      addCircle(canvas, {
+        fill: fill,
+        top: 105,
+        left: 100,
+      });
+      break;
+    case CanvasTool.TEXT:
+      addTextbox(canvas, { fill: fill });
+      break;
+    default:
+      break;
+  }
 };

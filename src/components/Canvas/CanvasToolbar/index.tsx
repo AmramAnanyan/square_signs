@@ -12,7 +12,6 @@ export interface ToolbarProps {
   activeTool: CanvasTool;
   onToolClick: (tool: CanvasTool) => void;
   onUndo: () => void;
-  onRedo: () => void;
   onClear: () => void;
   onDownload: (type: DownloadTypes) => void;
 }
@@ -21,7 +20,6 @@ const CanvasToolbar = ({
   activeTool,
   onToolClick,
   onUndo,
-  onRedo,
   onClear,
   onDownload,
 }: ToolbarProps) => {
@@ -39,7 +37,6 @@ const CanvasToolbar = ({
               onClick={() => {
                 if (btn.tool) onToolClick(btn.tool as CanvasTool);
                 if (btn.action === 'undo') onUndo();
-                if (btn.action === 'redo') onRedo();
                 if (btn.action === 'clear') onClear();
                 if (btn.action === 'download') {
                   setOpenDownloadModal(true);

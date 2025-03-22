@@ -15,6 +15,7 @@ import {
   addRectangle,
   addTextbox,
   clearCanvas,
+  drawGeometricFigureTools,
 } from '../../utils/canvashelpers/drawHelpers';
 import DynamicModal from '../../components/Modal';
 import { useUpdateSettingsModalPosition } from '../../utils/hooks/useUpdateSettingsModalPossition';
@@ -26,6 +27,7 @@ import {
 import { useAddImage } from '../../utils/hooks/useAddImage';
 import useAddSvg from '../../utils/hooks/useAddSvg';
 import {
+  downloadCanvasAsImage,
   downloadJPEG,
   downloadPNG,
   downloadWebp,
@@ -70,28 +72,8 @@ const Canvas2DEditing = () => {
     undoStack.current.push(canvas?.toJSON());
     redoStack.current.push(canvas?.toJSON());
     setActiveTool(tool);
+    drawGeometricFigureTools(canvas, tool, COLOR_OPTIONS[activeColor]);
     switch (tool) {
-      case CanvasTool.SELECT:
-        break;
-      case CanvasTool.DRAW:
-        break;
-      case CanvasTool.RECTANGLE:
-        addRectangle(canvas, {
-          top: 100,
-          left: 200,
-          fill: COLOR_OPTIONS[activeColor],
-        });
-        break;
-      case CanvasTool.CIRCLE:
-        addCircle(canvas, {
-          fill: COLOR_OPTIONS[activeColor],
-          top: 105,
-          left: 100,
-        });
-        break;
-      case CanvasTool.TEXT:
-        addTextbox(canvas, { fill: COLOR_OPTIONS[activeColor] });
-        break;
       case CanvasTool.IMAGE:
         if (imageFileRef.current) {
           imageFileRef.current.click();
@@ -111,13 +93,14 @@ const Canvas2DEditing = () => {
         }
         break;
       default:
-        break;
     }
   };
   const handleColorChange = (index: number) => {
     setActiveColor(index);
     if (!canvas) return;
     const activeObject = canvas.getActiveObject();
+    const lastObject = canvas.getObjects().slice(-1)[0];
+    if (!activeObject) lastObject?.set({ fill: COLOR_OPTIONS[index] });
     activeObject?.set({ fill: COLOR_OPTIONS[index] });
     canvas.renderAll();
   };
@@ -132,71 +115,31 @@ const Canvas2DEditing = () => {
       });
     }
   };
-  const redo = () => {
-    if (!canvas) return;
-    if (redoStack.current.length) {
-      canvas.loadFromJSON(redoStack.current[redoIndex], () => {
-        canvas.requestRenderAll();
-      });
-    }
-  };
-  const handleDownload = useCallback(
-    (type: DownloadTypes) => {
-      switch (type) {
-        case DownloadTypes.JPEG:
-          downloadJPEG(canvas);
-          break;
-        case DownloadTypes.PNG:
-          downloadPNG(canvas);
-          break;
-        case DownloadTypes.WEBP:
-          downloadWebp(canvas);
-          break;
-        default:
-      }
-    },
-    [canvas]
-  );
   return (
     <>
       {ALLOWED_SHAPES[activeShape as AllowedShapes] && (
         <DynamicModal isOpen={isModalOpen} position={modalPosition}>
           <ShapeSettings
             shape={activeShape as AllowedShapes}
-            onChange={({ name, value }) => {
-              console.log({ name, value });
-            }}
             canvas={canvas}
             activeColor={COLOR_OPTIONS[activeColor]}
           />
         </DynamicModal>
       )}
       <CanvasHeader>
-        <ZoomControls
-          zoomLevel={0}
-          onZoomIn={function (): void {
-            throw new Error('Function not implemented.');
-          }}
-          onZoomOut={function (): void {
-            throw new Error('Function not implemented.');
-          }}
-          onResetView={function (): void {
-            throw new Error('Function not implemented.');
-          }}
-        />
+        <ZoomControls canvas={canvas} />
       </CanvasHeader>
       <div className="flex flex-row gap-4 w-full">
         <CanvasToolbar
           activeTool={activeTool}
           onToolClick={handleToolClick}
           onUndo={undo}
-          onRedo={redo}
           onClear={() => {
             clearCanvas(canvas);
             undoStack.current = [];
             redoStack.current = [];
           }}
-          onDownload={handleDownload}
+          onDownload={(type) => downloadCanvasAsImage(type, canvas)}
         />
         <CanvasCore
           canvas={canvas}

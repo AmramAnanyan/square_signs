@@ -6,13 +6,11 @@ import { ShapesValues } from '../../utils/canvashelpers/drawHelpers';
 import { CanvasTool } from '../../constants/toolbarConstants';
 export interface IShapeSettingsProps {
   shape: AllowedShapes;
-  onChange: ({ name, value }: { name: string; value: string | number }) => void;
   canvas: Canvas | null;
   activeColor?: string;
 }
 const ShapeSettings: FC<IShapeSettingsProps> = ({
   shape,
-  onChange,
   canvas,
   activeColor,
 }) => {
@@ -27,7 +25,7 @@ const ShapeSettings: FC<IShapeSettingsProps> = ({
   useEffect(() => {
     setSettingsValues({ ...settingsValues, fill: activeColor });
   }, [activeColor]);
-
+  console.log(activeColor, 'active color');
   useEffect(() => {
     if (canvas) {
       const activeObject = canvas.getActiveObject();
@@ -44,10 +42,8 @@ const ShapeSettings: FC<IShapeSettingsProps> = ({
         ...settingsValues,
         [name]: intValue ? intValue : '',
       });
-      onChange({ name, value: intValue });
     } else {
       setSettingsValues({ ...settingsValues, [name]: value });
-      onChange({ name, value });
     }
   };
   return (

@@ -22,7 +22,6 @@ export const enum CanvasTool {
 }
 export const enum CanvasAction {
   UNDO = 'undo',
-  REDO = 'redo',
   CLEAR = 'clear',
   DOWNLOAD = 'download',
 }
@@ -41,7 +40,6 @@ export const TOOL_BAR_GROUPS = [
   },
 
   { icon: <Undo />, action: CanvasAction.UNDO, title: 'Undo' },
-  { icon: <Redo />, action: CanvasAction.REDO, title: 'Redo' },
 
   { icon: <Trash2 />, action: CanvasAction.CLEAR, title: 'Clear Canvas' },
   { icon: <Download />, action: CanvasAction.DOWNLOAD, title: 'Download' },

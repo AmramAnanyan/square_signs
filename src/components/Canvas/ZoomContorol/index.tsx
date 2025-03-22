@@ -1,24 +1,20 @@
 import { Minus, Plus, RotateCcw } from 'lucide-react';
 import { Button } from '../../Button';
+import { Canvas } from 'fabric';
+import useCanvasZoom from '../../../utils/hooks/useCanvasZoom';
 
 export interface IZoomControlsProps {
-  zoomLevel: number;
-  onZoomIn: () => void;
-  onZoomOut: () => void;
-  onResetView: () => void;
+  canvas: Canvas | null;
 }
-const ZoomControls = ({
-  zoomLevel,
-  onZoomIn,
-  onZoomOut,
-  onResetView,
-}: IZoomControlsProps) => {
+const ZoomControls = ({ canvas }: IZoomControlsProps) => {
+  const { zoomLevel, zoomCanvas, resetZoom } = useCanvasZoom(canvas);
+
   return (
     <div className="flex items-center gap-2">
       <Button
         variant="ghost"
         size="sm"
-        onClick={onResetView}
+        onClick={resetZoom}
         className="flex items-center gap-1"
       >
         <RotateCcw className="h-4 w-4" />
@@ -28,7 +24,7 @@ const ZoomControls = ({
         <Button
           variant="ghost"
           size="icon"
-          onClick={onZoomOut}
+          onClick={() => zoomCanvas(false)}
           disabled={zoomLevel <= 0.5}
         >
           <Minus className="h-4 w-4" />
@@ -39,7 +35,7 @@ const ZoomControls = ({
         <Button
           variant="ghost"
           size="icon"
-          onClick={onZoomIn}
+          onClick={() => zoomCanvas(true)}
           disabled={zoomLevel >= 3}
         >
           <Plus className="h-4 w-4" />
