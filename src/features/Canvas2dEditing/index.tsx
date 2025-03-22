@@ -15,6 +15,7 @@ import {
 import { Button } from '../../components/Button';
 import DynamicModal from '../../components/Modal';
 import Input from '../../components/Input';
+import { useUpdateSettingsModalPosition } from '../../utils/hooks/useUpdateSettingsModalPossition';
 
 const Canvas2DEditing = () => {
   const [canvas, setCanvas] = useState<FabricCanvas | null>(null);
@@ -24,42 +25,8 @@ const Canvas2DEditing = () => {
   const redoStack = useRef<any[]>([]);
   const canvasRef = useRef(null);
   const [redoIndex, setRedoIndex] = useState(1);
-
-  const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  useEffect(() => {
-    if (!canvas) return;
-
-    const updateModalPosition = (event: any) => {
-      const obj = event.target || event.selected?.[0];
-      if (!obj) return;
-
-      const boundingBox = obj.getBoundingRect();
-      const canvasRect = canvas.upperCanvasEl.getBoundingClientRect();
-
-      setModalPosition({
-        top: canvasRect.top + boundingBox.top,
-        left: canvasRect.left + boundingBox.left + boundingBox.width,
-      });
-
-      setIsModalOpen(true);
-    };
-
-    canvas.on('selection:created', updateModalPosition);
-    canvas.on('selection:updated', updateModalPosition);
-    canvas.on('object:modified', updateModalPosition);
-
-    canvas.on('selection:cleared', () => {
-      setIsModalOpen(false);
-    });
-
-    return () => {
-      canvas.off('selection:created', updateModalPosition);
-      canvas.off('selection:updated', updateModalPosition);
-      canvas.off('selection:cleared');
-    };
-  }, [canvas]);
+  const { isOpen: isModalOpen, position: modalPosition } =
+    useUpdateSettingsModalPosition(canvas);
 
   useEffect(() => {
     if (canvasRef.current) {
