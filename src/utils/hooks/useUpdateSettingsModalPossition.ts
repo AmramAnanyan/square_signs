@@ -1,15 +1,21 @@
 import { useEffect, useState } from 'react';
-import { Canvas } from 'fabric';
+import { Canvas, Circle, Rect, Textbox } from 'fabric';
+import { CanvasTool } from '../../constants/toolbarConstants';
+import { AllowedShapes } from '../../components/ShapesSettings/constants';
+import setActiveShape from '../canvashelpers/setActiveSHape';
 
 const useUpdateSettingsModalPosition = (canvas: Canvas | null) => {
   const [position, setPosition] = useState({ top: 0, left: 0 });
   const [isOpen, setIsOpen] = useState(false);
+  const [activeShape, setActivatedShape] = useState(CanvasTool.SELECT);
   useEffect(() => {
     if (!canvas) return;
 
     const updateModalPosition = (event: any) => {
       const obj = event.target || event.selected?.[0];
+
       if (!obj) return;
+      setActiveShape(obj, setActivatedShape);
 
       const boundingBox = obj.getBoundingRect();
       const canvasRect = canvas.upperCanvasEl.getBoundingClientRect();
@@ -36,6 +42,6 @@ const useUpdateSettingsModalPosition = (canvas: Canvas | null) => {
       canvas.off('selection:cleared');
     };
   }, [canvas]);
-  return { isOpen, position };
+  return { isOpen, position, activeShape };
 };
 export { useUpdateSettingsModalPosition };

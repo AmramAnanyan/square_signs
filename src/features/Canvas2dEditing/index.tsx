@@ -12,10 +12,10 @@ import {
   addTextbox,
   clearCanvas,
 } from '../../utils/canvashelpers/drawHelpers';
-import { Button } from '../../components/Button';
 import DynamicModal from '../../components/Modal';
-import Input from '../../components/Input';
 import { useUpdateSettingsModalPosition } from '../../utils/hooks/useUpdateSettingsModalPossition';
+import ShapeSettings from '../../components/ShapesSettings';
+import { AllowedShapes } from '../../components/ShapesSettings/constants';
 
 const Canvas2DEditing = () => {
   const [canvas, setCanvas] = useState<FabricCanvas | null>(null);
@@ -25,8 +25,11 @@ const Canvas2DEditing = () => {
   const redoStack = useRef<any[]>([]);
   const canvasRef = useRef(null);
   const [redoIndex, setRedoIndex] = useState(1);
-  const { isOpen: isModalOpen, position: modalPosition } =
-    useUpdateSettingsModalPosition(canvas);
+  const {
+    isOpen: isModalOpen,
+    position: modalPosition,
+    activeShape,
+  } = useUpdateSettingsModalPosition(canvas);
 
   useEffect(() => {
     if (canvasRef.current) {
@@ -44,7 +47,6 @@ const Canvas2DEditing = () => {
   }, []);
 
   const handleToolClick = (tool: CanvasTool) => {
-    console.log(tool, 'tool');
     undoStack.current.push(canvas?.toJSON());
     redoStack.current.push(canvas?.toJSON());
     setActiveTool(tool);
@@ -107,12 +109,16 @@ const Canvas2DEditing = () => {
       });
     }
   };
+  console.log(activeTool, 'active');
   return (
     <>
       <DynamicModal isOpen={isModalOpen} position={modalPosition}>
-        <Input id="Width" label="Width" />
-        <Input id="Height" label="Height" />
-        <Input id="color" label="Color" type="color" />
+        <ShapeSettings
+          shape={activeShape as AllowedShapes}
+          onChange={({ name, value }) => {
+            console.log({ name, value });
+          }}
+        />
       </DynamicModal>
       <CanvasHeader>
         <ZoomControls
