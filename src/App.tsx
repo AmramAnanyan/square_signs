@@ -2,6 +2,7 @@ import './App.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Canvas2DEditor from './pages/2DCanvasEditor';
+import Game2D from './pages/2DGame';
 const FeatureCard = ({
   icon,
   title,
@@ -27,6 +28,7 @@ const App = () => {
     <div>
       <Header />
       <Canvas2DEditor />
+      <Game2D />
       <Footer />
     </div>
   );

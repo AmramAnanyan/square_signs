@@ -7,7 +7,7 @@ export const useAddImage = (canvas: FabricCanvas | null, file: null | File) => {
     if (file && canvas) {
       const url = URL.createObjectURL(file);
       if (typeof url === 'string') {
-        const image = Image.fromURL(url)
+        Image.fromURL(url)
           .then((img) => {
             img.set({
               left: 100,

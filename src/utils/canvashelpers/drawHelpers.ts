@@ -12,11 +12,12 @@ export interface IRectangle {
   width?: number;
   height?: number;
   fill: string;
+  selectable?: boolean;
 }
 export const addRectangle = (
   canvas: FabricCanvas | null,
   options: IRectangle
-): void => {
+): Rect | undefined => {
   if (!canvas) return;
   const rect = new Rect({
     width: ShapesValues.WIDTH,
@@ -24,20 +25,26 @@ export const addRectangle = (
     ...options,
   });
   canvas.add(rect);
+  return rect;
 };
 export interface ICircle {
   top: number;
   left: number;
   radius?: number;
   fill: string;
+  selectable?: boolean;
 }
-export const addCircle = (canvas: FabricCanvas | null, options: ICircle) => {
+export const addCircle = (
+  canvas: FabricCanvas | null,
+  options: ICircle
+): Circle | undefined => {
   if (!canvas) return;
   const circle = new Circle({
     radius: ShapesValues.radius,
     ...options,
   });
   canvas.add(circle);
+  return circle;
 };
 export interface ITextBox {
   fill: string;
