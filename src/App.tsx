@@ -4,6 +4,7 @@ import Footer from './components/Footer';
 import Canvas2DEditor from './pages/2DCanvasEditor';
 import Game2D from './pages/2DGame';
 import Viewer3D from './pages/3DViewer';
+import CircleLoader from './components/Loader/CircleLoader';
 const App = () => {
   return (
     <div>
