@@ -16,7 +16,11 @@ const Header = () => {
           <Button variant="ghost">3D Viewer</Button>
           <Button variant="outline" className="bg-background backdrop-blur-sm ">
             <Lightbulb className="h-4 w-4 mr-2 text-primary" />
-            <a href="https://github.com/AmramAnanyan" target="_blank">
+            <a
+              href="https://github.com/AmramAnanyan"
+              target="_blank"
+              rel="noreferrer"
+            >
               Github
             </a>
           </Button>

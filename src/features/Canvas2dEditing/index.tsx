@@ -12,7 +12,7 @@ import {
 } from '../../utils/canvashelpers/drawHelpers';
 import DynamicModal from '../../components/Modal';
 import { useUpdateSettingsModalPosition } from '../../utils/hooks/useUpdateSettingsModalPossition';
-import ShapeSettings from '../../entities/ui/ShapesSettings';
+import ShapeSettings from '../../entities/ShapesSettings/ui';
 import { useAddImage } from '../../utils/hooks/useAddImage';
 import useAddSvg from '../../utils/hooks/useAddSvg';
 import { downloadCanvasAsImage } from '../../utils/helpers/global';
