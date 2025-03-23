@@ -11,7 +11,7 @@ const Footer = () => {
           </span>
         </div>
         <div className="text-sm text-muted">
-          Built with React, Fabric.js, and Tailwind CSS
+          2D Editor | 2D Game | 3D Viewer
         </div>
       </div>
     </footer>

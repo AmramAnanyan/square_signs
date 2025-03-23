@@ -13,9 +13,12 @@ const Header = () => {
         <div className="flex items-center gap-4">
           <Button variant="ghost">2D Editor</Button>
           <Button variant="ghost">2D Game</Button>
+          <Button variant="ghost">3D Viewer</Button>
           <Button variant="outline" className="bg-background backdrop-blur-sm ">
             <Lightbulb className="h-4 w-4 mr-2 text-primary" />
-            Github
+            <a href="https://github.com/AmramAnanyan" target="_blank">
+              Github
+            </a>
           </Button>
         </div>
       </div>
