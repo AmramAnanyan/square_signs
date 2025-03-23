@@ -1,13 +1,4 @@
-import {
-  Circle,
-  Canvas as FabricCanvas,
-  Image,
-  Rect,
-  Textbox,
-  util,
-} from 'fabric';
-import { useEffect } from 'react';
-import { scaleImage } from '../helpers/global';
+import { Circle, Canvas as FabricCanvas, Rect, Textbox } from 'fabric';
 import { CanvasTool } from '../../constants/toolbarConstants';
 export const enum ShapesValues {
   WIDTH = 100,

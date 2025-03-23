@@ -1,4 +1,4 @@
-import { CanvasTool } from '../../../constants/toolbarConstants';
+import { CanvasTool } from './toolbarConstants';
 export type AllowedShapes =
   | CanvasTool.RECTANGLE
   | CanvasTool.CIRCLE

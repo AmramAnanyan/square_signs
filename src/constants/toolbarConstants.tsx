@@ -5,9 +5,7 @@ import {
   Type,
   ImageIcon,
   Pencil,
-  Hand,
   Undo,
-  Redo,
   Trash2,
   Download,
 } from 'lucide-react';

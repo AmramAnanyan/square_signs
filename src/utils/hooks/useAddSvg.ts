@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Canvas, loadSVGFromURL, Image, filters } from 'fabric';
+import { Canvas, loadSVGFromURL } from 'fabric';
 import { util } from 'fabric';
 import { scaleImage } from '../helpers/global';
 
@@ -7,7 +7,7 @@ const useAddSvg = (canvas: Canvas | null, file: File | null) => {
   useEffect(() => {
     if (!(canvas && file)) return;
     const url = URL.createObjectURL(file);
-    const svg = loadSVGFromURL(url)
+    loadSVGFromURL(url)
       .then((svgResult: any) => {
         const svgGroup = util.groupSVGElements(
           svgResult.objects,

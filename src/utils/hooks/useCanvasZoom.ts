@@ -1,11 +1,9 @@
 import { Canvas, Point } from 'fabric';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 const useCanvasZoom = (canvas: Canvas | null) => {
   const [zoomLevel, setZoomLevel] = useState(1);
-  useEffect(() => {
-    if (!canvas) return;
-  }, [canvas]);
+
   const zoomCanvas = useCallback(
     (zoomIn: boolean) => {
       if (!canvas) return;
@@ -16,6 +14,7 @@ const useCanvasZoom = (canvas: Canvas | null) => {
     },
     [canvas, zoomLevel]
   );
+
   const resetZoom = useCallback(() => {
     if (!canvas) return;
     setZoomLevel(1);

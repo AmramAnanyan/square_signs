@@ -1,9 +1,11 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react';
 import Input from '../../../components/Input';
-import { ALLOWED_SHAPES, AllowedShapes, SETTINGS_SELECTION } from './constants';
 import { Canvas } from 'fabric';
 import { ShapesValues } from '../../../utils/canvashelpers/drawHelpers';
-import { CanvasTool } from '../../../constants/toolbarConstants';
+import {
+  AllowedShapes,
+  SETTINGS_SELECTION,
+} from '../../../constants/shapeSettings';
 export interface IShapeSettingsProps {
   shape: AllowedShapes;
   canvas: Canvas | null;
@@ -24,8 +26,9 @@ const ShapeSettings: FC<IShapeSettingsProps> = ({
 
   useEffect(() => {
     setSettingsValues({ ...settingsValues, fill: activeColor });
+    // eslint-disable-next-line
   }, [activeColor]);
-  console.log(activeColor, 'active color');
+
   useEffect(() => {
     if (canvas) {
       const activeObject = canvas.getActiveObject();

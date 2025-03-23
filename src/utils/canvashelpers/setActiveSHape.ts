@@ -1,6 +1,6 @@
 import { Circle, Rect, Textbox } from 'fabric';
-import { AllowedShapes } from '../../entities/ui/ShapesSettings/constants';
 import { CanvasTool } from '../../constants/toolbarConstants';
+import { AllowedShapes } from '../../constants/shapeSettings';
 
 const setActiveShape = (
   obj: Rect | Circle | Textbox,

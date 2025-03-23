@@ -7,6 +7,7 @@ const useUpdateSettingsModalPosition = (canvas: Canvas | null) => {
   const [position, setPosition] = useState({ top: 0, left: 0 });
   const [isOpen, setIsOpen] = useState(false);
   const [activeShape, setActivatedShape] = useState(CanvasTool.SELECT);
+
   useEffect(() => {
     if (!canvas) return;
 
@@ -40,6 +41,7 @@ const useUpdateSettingsModalPosition = (canvas: Canvas | null) => {
       canvas.off('selection:cleared');
     };
   }, [canvas]);
+
   return { isOpen, position, activeShape };
 };
 export { useUpdateSettingsModalPosition };
