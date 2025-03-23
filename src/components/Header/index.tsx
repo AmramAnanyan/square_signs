@@ -10,7 +10,7 @@ const Header = () => {
           <Layers className="h-6 w-6 text-primary " />
           <h1 className="text-2xl font-semibold">Interactive Canvas</h1>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 flex-col sm:flex-row">
           <Button variant="ghost">2D Editor</Button>
           <Button variant="ghost">2D Game</Button>
           <Button variant="ghost">3D Viewer</Button>
