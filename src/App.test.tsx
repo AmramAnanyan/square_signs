@@ -2,8 +2,8 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
+test('renders Interactive 2D Visualization header', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  const htmlElement = screen.getByText(/Interactive 2D Visualization/i);
+  expect(htmlElement).toBeInTheDocument();
 });
