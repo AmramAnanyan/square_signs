@@ -11,6 +11,9 @@ import {
 import { addCircle, addRectangle } from '../../utils/canvashelpers/drawHelpers';
 import useBallAnimation from '../../utils/hooks/useBallAnimation';
 
+const sideBarStyles =
+  'glass-panel p-3 flex flex-col items-center gap-3 animate-fade-in w-16 bg-slate-900';
+
 const PlayGame = () => {
   const [canvas, setCanvas] = useState<FabricCanvas | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -38,6 +41,7 @@ const PlayGame = () => {
     if (!paddle || !ball) return;
     canvas?.remove(paddle, ball);
   };
+
   useEffect(() => {
     if (isStopped) {
       handleStop();
@@ -45,6 +49,7 @@ const PlayGame = () => {
     }
     //eslint-disable-next-line
   }, [isStopped]);
+
   const handlePlay = () => {
     if (!canvas) return;
     setIsPlaying(true);
@@ -82,11 +87,11 @@ const PlayGame = () => {
   return (
     <>
       <div className="flex flex-row gap-4 w-full">
-        <div className="glass-panel p-3 flex flex-col items-center gap-3 animate-fade-in w-16 bg-slate-900"></div>
+        <div className={sideBarStyles}></div>
         <CanvasCore canvas={canvas} canvasRef={canvasRef} />
-        <div className="glass-panel p-3 flex flex-col items-center gap-3 animate-fade-in w-16 bg-slate-900"></div>
+        <div className={sideBarStyles}></div>
       </div>
-      <div className="glass-panel  p-4 flex flex-col my-3 items-center gap-3 animate-fade-in w-full bg-slate-900">
+      <div className={sideBarStyles}>
         <div className="flex gap-3">
           <Button
             variant="default"

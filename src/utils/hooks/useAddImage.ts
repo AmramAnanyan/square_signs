@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { scaleImage } from '../helpers/global';
 import { Canvas as FabricCanvas, Image } from 'fabric';
 
-export const useAddImage = (canvas: FabricCanvas | null, file: null | File) => {
+const useAddImage = (canvas: FabricCanvas | null, file: null | File) => {
   useEffect(() => {
     if (file && canvas) {
       const url = URL.createObjectURL(file);
@@ -27,3 +27,5 @@ export const useAddImage = (canvas: FabricCanvas | null, file: null | File) => {
     }
   }, [canvas, file]);
 };
+
+export default useAddImage;

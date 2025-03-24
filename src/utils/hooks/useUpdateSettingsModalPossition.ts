@@ -44,4 +44,4 @@ const useUpdateSettingsModalPosition = (canvas: Canvas | null) => {
 
   return { isOpen, position, activeShape };
 };
-export { useUpdateSettingsModalPosition };
+export default useUpdateSettingsModalPosition;

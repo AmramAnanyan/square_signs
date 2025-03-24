@@ -22,6 +22,7 @@ const useCanvasZoom = (canvas: Canvas | null) => {
     canvas.viewportTransform = [1, 0, 0, 1, 0, 0];
     canvas.renderAll();
   }, [canvas]);
+
   return { zoomLevel, zoomCanvas, resetZoom };
 };
 

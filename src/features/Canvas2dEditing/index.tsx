@@ -1,4 +1,4 @@
-import { ColorPicker } from '../../components/CollortPicker';
+import ColorPicker from '../../components/CollortPicker';
 import { CanvasTool, COLOR_OPTIONS } from '../../constants/toolbarConstants';
 import CanvasCore from '../../components/Canvas/CanvasCore';
 import CanvasToolbar from '../../components/Canvas/CanvasToolbar';
@@ -11,9 +11,9 @@ import {
   drawGeometricFigureTools,
 } from '../../utils/canvashelpers/drawHelpers';
 import DynamicModal from '../../components/Modal';
-import { useUpdateSettingsModalPosition } from '../../utils/hooks/useUpdateSettingsModalPossition';
+import useUpdateSettingsModalPosition from '../../utils/hooks/useUpdateSettingsModalPossition';
 import ShapeSettings from '../../entities/ShapesSettings/ui';
-import { useAddImage } from '../../utils/hooks/useAddImage';
+import useAddImage from '../../utils/hooks/useAddImage';
 import useAddSvg from '../../utils/hooks/useAddSvg';
 import { downloadCanvasAsImage } from '../../utils/helpers/global';
 import { ALLOWED_SHAPES, AllowedShapes } from '../../constants/shapeSettings';
@@ -51,6 +51,32 @@ const Canvas2DEditing = () => {
       };
     }
   }, []);
+  useEffect(() => {
+    const imageInput = imageFileRef.current;
+    const svgInput = svgFileRef.current;
+    const handleImageChange = (e: Event) => {
+      const target = e.target as HTMLInputElement;
+      if (target?.files) setFileState(target?.files?.[0]);
+    };
+
+    const handleSvgChange = (e: Event) => {
+      const target = e.target as HTMLInputElement;
+      if (target?.files) setSvgFileState(target?.files?.[0]);
+    };
+
+    if (imageFileRef.current) {
+      imageFileRef.current.addEventListener('change', handleImageChange);
+    }
+
+    if (svgFileRef.current) {
+      svgFileRef.current.addEventListener('change', handleSvgChange);
+    }
+
+    return () => {
+      imageInput?.removeEventListener('change', handleImageChange);
+      svgInput?.removeEventListener('change', handleSvgChange);
+    };
+  }, []);
 
   const handleToolClick = (tool: CanvasTool) => {
     undoStack.current.push(canvas?.toJSON());
@@ -60,19 +86,11 @@ const Canvas2DEditing = () => {
       case CanvasTool.IMAGE:
         if (imageFileRef.current) {
           imageFileRef.current.click();
-          imageFileRef.current.addEventListener('change', (e) => {
-            //@ts-ignore
-            setFileState(e?.target?.files?.[0]);
-          });
         }
         break;
       case CanvasTool.SVG:
         if (svgFileRef.current) {
           svgFileRef.current.click();
-          svgFileRef.current.addEventListener('change', (e) => {
-            //@ts-ignore
-            setSvgFileState(e?.target?.files?.[0]);
-          });
         }
         break;
       default:
@@ -91,7 +109,7 @@ const Canvas2DEditing = () => {
     },
     [canvas]
   );
-  const undo = () => {
+  const undo = useCallback(() => {
     if (!canvas) return;
     const deletedState = undoStack.current.pop();
     if (deletedState) {
@@ -99,12 +117,12 @@ const Canvas2DEditing = () => {
         canvas.requestRenderAll();
       });
     }
-  };
+  }, [canvas]);
 
-  const handleClear = useCallback(() => {
+  const handleClear = () => {
     clearCanvas(canvas);
     undoStack.current = [];
-  }, [canvas]);
+  };
 
   return (
     <>

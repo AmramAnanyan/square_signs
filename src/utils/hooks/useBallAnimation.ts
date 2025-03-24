@@ -8,6 +8,7 @@ const useBallAnimation = (
 ) => {
   const animationFrameId = useRef(0);
   const [isStopped, setIsStopped] = useState(false);
+
   useEffect(() => {
     if (!ball || !paddle || !canvas) return;
 
@@ -17,6 +18,7 @@ const useBallAnimation = (
       canvas?.renderAll();
       animateBall();
     };
+
     const animateBall = () => {
       if (!ball || !canvas || !paddle) return;
       if (ball.top > canvas.height) {
@@ -37,11 +39,13 @@ const useBallAnimation = (
       canvas?.renderAll();
       animationFrameId.current = requestAnimationFrame(animateBall);
     };
+
     animateBall();
     return () => {
       cancelAnimationFrame(animationFrameId.current);
     };
   }, [ball, paddle, canvas]);
+
   return { isStopped };
 };
 

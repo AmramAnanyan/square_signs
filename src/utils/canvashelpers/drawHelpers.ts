@@ -1,11 +1,13 @@
 import { Circle, Canvas as FabricCanvas, Rect, Textbox } from 'fabric';
 import { CanvasTool } from '../../constants/toolbarConstants';
+
 export const enum ShapesValues {
   WIDTH = 100,
   HEIGHT = 100,
   radius = 60,
   fontSize = 22,
 }
+
 export interface IRectangle {
   top: number;
   left: number;
@@ -14,6 +16,7 @@ export interface IRectangle {
   fill: string;
   selectable?: boolean;
 }
+
 export const addRectangle = (
   canvas: FabricCanvas | null,
   options: IRectangle
@@ -34,6 +37,7 @@ export interface ICircle {
   fill: string;
   selectable?: boolean;
 }
+
 export const addCircle = (
   canvas: FabricCanvas | null,
   options: ICircle
@@ -49,6 +53,7 @@ export const addCircle = (
 export interface ITextBox {
   fill: string;
 }
+
 export const addTextbox = (canvas: FabricCanvas | null, options: ITextBox) => {
   if (canvas) {
     const text = new Textbox('Edit Me!', {

@@ -6,7 +6,7 @@ export interface IColorPickerProps {
   onColorChange: (color: number) => void;
 }
 
-export const ColorPicker = ({
+const ColorPicker = ({
   activeColor,
   colorOptions,
   onColorChange,
@@ -37,3 +37,5 @@ export const ColorPicker = ({
     </div>
   );
 };
+
+export default ColorPicker;
