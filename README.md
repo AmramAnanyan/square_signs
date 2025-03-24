@@ -94,4 +94,4 @@ http://localhost:3000
 - [Feature-Sliced Design](https://feature-sliced.design/)
 - [TypeScript Docs](https://www.typescriptlang.org/)
 - [Fabric](https://fabricjs.com/)
-  [React Free Fiber](https://r3f.docs.pmnd.rs/getting-started/introduction)
+- [React Free Fiber](https://r3f.docs.pmnd.rs/getting-started/introduction)
