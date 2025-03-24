@@ -1,9 +1,13 @@
 # 2D Editor 2D Game 3D Viewer
 
+## Demo Deployed in vercel
+
+[Demo](https://canvas-editor-seven.vercel.app/)
+
 ## Installation
 
 ```bash
-git clone https://github.com/AmramAnanyan/Gurus_Blog_APP.git
+git clone https://github.com/AmramAnanyan/square_signs.git
 npm install
 npm start
 http://localhost:3000
@@ -70,6 +74,10 @@ http://localhost:3000
 ### 8. **Performance Testing**
 
 - The project is tested using **Lighthouse** to ensure high performance, accessibility,SEO,First Contentful Paint,Largest Contentful Paint ...etc, and compliance with best practices.
+
+### 9. **Development**
+
+- Vercel automatically gziped files, and react optimized with webpack like tree shaking
 
 ![Performance](./README_IMAGES/performance.png)
 
