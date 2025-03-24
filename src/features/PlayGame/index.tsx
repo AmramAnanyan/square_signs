@@ -41,7 +41,6 @@ const PlayGame = () => {
     if (!paddle || !ball) return;
     canvas?.remove(paddle, ball);
   };
-
   useEffect(() => {
     if (isStopped) {
       handleStop();
@@ -91,7 +90,7 @@ const PlayGame = () => {
         <CanvasCore canvas={canvas} canvasRef={canvasRef} />
         <div className={sideBarStyles}></div>
       </div>
-      <div className={sideBarStyles}>
+      <div className={`${sideBarStyles} w-full mt-2`}>
         <div className="flex gap-3">
           <Button
             variant="default"
