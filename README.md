@@ -1,8 +1,8 @@
 # 2D Editor 2D Game 3D Viewer
 
-## Demo Deployed in vercel
+## Demo Deployed in Vercel
 
-[Demo](https://canvas-editor-seven.vercel.app/)
+[Demo](https://canvas-editor-seven.vercel.app/){:target="\_blank"}
 
 ## Installation
 
