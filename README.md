@@ -2,7 +2,7 @@
 
 ## Demo Deployed in Vercel
 
-[Demo](https://canvas-editor-seven.vercel.app/){:target="\_blank"}
+[Demo](https://canvas-editor-seven.vercel.app/)
 
 ## Installation
 
@@ -10,6 +10,12 @@
 git clone https://github.com/AmramAnanyan/square_signs.git
 npm install
 npm start
+
+```
+
+```plaintext
+React 19 version
+Node v22.13.1
 http://localhost:3000
 ```
 
