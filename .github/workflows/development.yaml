@@ -1,0 +1,39 @@
+name: 'Development Test case'
+on:
+  push:
+    branches:
+      - main
+    paths-ignore: '.github/workflows/*'
+jobs:
+  print:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print console
+        run: echo worked workflow
+  unit_test:
+    needs: [print]
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node_version: [18, 22]
+    runs-on: '${{ matrix.os }}'
+    steps:
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4.0.0
+        with:
+          node-version: ${{ matrix.node_version }}
+      - name: Get Repository Code Checkout
+        uses: actions/checkout@v4.1.1
+      - name: Cache dependence
+        uses: actions/cache@v3.3.2
+        with:
+          path: ~/.npm
+          key: node-modules-${{ hashFiles('**/package-lock-json') }}
+      - name: Display content of a file
+        run: |
+          cd client/  
+          npm install
+      - name: Install Dependence
+        run: npm install
+      - name: Jest test
+        run: npm run test
