@@ -25,7 +25,7 @@ jobs:
       - name: Get Repository Code Checkout
         uses: actions/checkout@v4.1.1
       - name: Cache dependence
-        uses: actions/cache@v3.3.2
+        uses: actions/cache@v4
         with:
           path: ~/.npm
           key: node-modules-${{ hashFiles('**/package-lock-json') }}
