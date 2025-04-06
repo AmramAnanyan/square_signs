@@ -1,8 +1,13 @@
 import { Layers, Lightbulb } from 'lucide-react';
 import { Button } from '../Button';
 import SubHeader from '../SubHeader';
+import { SCROLL_TO } from '../../constants/generic';
 
 const Header = () => {
+  const handleScrollTo = (scroll: SCROLL_TO) => {
+    const scrollEvent = new CustomEvent(scroll);
+    dispatchEvent(scrollEvent);
+  };
   return (
     <header className="container mx-auto py-6 px-4">
       <div className="flex justify-between items-center mb-10">
@@ -11,9 +16,30 @@ const Header = () => {
           <h1 className="text-2xl font-semibold">Interactive Canvas</h1>
         </div>
         <div className="flex items-center gap-4 flex-col sm:flex-row">
-          <Button variant="ghost">2D Editor</Button>
-          <Button variant="ghost">2D Game</Button>
-          <Button variant="ghost">3D Viewer</Button>
+          <Button
+            variant="ghost"
+            onClick={() => {
+              handleScrollTo(SCROLL_TO.EDITOR);
+            }}
+          >
+            2D Editor
+          </Button>
+          <Button
+            variant="ghost"
+            onClick={() => {
+              handleScrollTo(SCROLL_TO.GAME);
+            }}
+          >
+            2D Game
+          </Button>
+          <Button
+            variant="ghost"
+            onClick={() => {
+              handleScrollTo(SCROLL_TO.VIEWER);
+            }}
+          >
+            3D Viewer
+          </Button>
           <Button variant="outline" className="bg-background backdrop-blur-sm ">
             <Lightbulb className="h-4 w-4 mr-2 text-primary" />
             <a

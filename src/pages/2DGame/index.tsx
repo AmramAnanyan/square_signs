@@ -1,9 +1,9 @@
-import { lazy, Suspense } from 'react';
+import { forwardRef, lazy, Suspense } from 'react';
 import PageWrapper from '../../components/PageWrapper';
 import SubHeader from '../../components/SubHeader';
 import CircleLoader from '../../components/Loader/CircleLoader';
 const PlayGame = lazy(() => import('../../features/PlayGame'));
-const Game2D = () => {
+const Game2D = forwardRef(() => {
   return (
     <PageWrapper>
       <SubHeader
@@ -16,6 +16,6 @@ const Game2D = () => {
       </Suspense>
     </PageWrapper>
   );
-};
+});
 
 export default Game2D;
