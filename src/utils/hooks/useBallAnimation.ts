@@ -14,7 +14,7 @@ const useBallAnimation = (
 
     const ballToTop = () => {
       ball.top = 0;
-      ball.left = Math.random() * 800;
+      ball.left = Math.random() * canvas.width - ball.width;
       canvas?.renderAll();
       animateBall();
     };
