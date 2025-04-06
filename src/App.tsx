@@ -5,11 +5,9 @@ import Game2D from './pages/2DGame';
 import Viewer3D from './pages/3DViewer';
 import Scrollable from './components/Scrollable';
 import { SCROLL_TO } from './constants/generic';
-import { ArrowUp } from 'lucide-react';
-import useScrollTo from './utils/hooks/useScrollTo';
+import ScrollTopButton from './components/ScrollTopButton';
 
 const App = () => {
-  const { scrollRef, scrollToTop } = useScrollTo();
   return (
     <div className="relative">
       <Header />
@@ -22,12 +20,7 @@ const App = () => {
       <Scrollable id={SCROLL_TO.VIEWER}>
         <Viewer3D />
       </Scrollable>
-      <div
-        className="bg-slate-50 w-14 h-14 rounded-full border flex justify-center items-center cursor-pointer shadow-lg fixed bottom-20 right-3"
-        onClick={scrollToTop}
-      >
-        <ArrowUp color="#3388ff" />
-      </div>
+      <ScrollTopButton />
       <Footer />
     </div>
   );

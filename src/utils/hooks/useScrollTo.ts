@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { SCROLL_EVENTS } from '../../constants/generic';
 
 const useScrollTo = () => {
   const elementRef = useRef<null | HTMLDivElement>(null);
+
   useEffect(() => {
     const handleScroll = (e: Event) => {
       if (elementRef.current) {
@@ -14,6 +15,7 @@ const useScrollTo = () => {
         }
       }
     };
+
     SCROLL_EVENTS.forEach((event) => {
       window.addEventListener(event, handleScroll);
     });
@@ -24,9 +26,11 @@ const useScrollTo = () => {
       });
     };
   }, []);
+
   const scrollToTop = useCallback(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
+
   return { scrollRef: elementRef, scrollToTop };
 };
 
