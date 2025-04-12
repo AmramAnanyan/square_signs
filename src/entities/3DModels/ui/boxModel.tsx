@@ -1,11 +1,19 @@
 import { ThreeElements, useFrame } from '@react-three/fiber';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 const BoxModel = (props: ThreeElements['mesh']) => {
   const meshRef = useRef<THREE.Mesh>(null!);
   const [hovered, setHover] = useState(false);
   const [active, setActive] = useState(false);
   useFrame((state, delta) => (meshRef.current.rotation.x += delta));
+
+  useEffect(() => {
+    const mesh = meshRef;
+    return () => {
+      mesh?.current?.geometry?.dispose();
+    };
+  }, []);
+
   return (
     <mesh
       {...props}

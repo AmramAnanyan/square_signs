@@ -1,5 +1,5 @@
 import { useFrame, useLoader } from '@react-three/fiber';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import * as THREE from 'three';
@@ -12,6 +12,14 @@ const ArtistModel = () => {
   });
   const meshRef = useRef<THREE.Mesh>(null!);
   useFrame((state, delta) => (meshRef.current.rotation.y += delta));
+
+  useEffect(() => {
+    const mesh = meshRef;
+    return () => {
+      mesh?.current?.geometry?.dispose();
+    };
+  }, []);
+
   return (
     <primitive
       ref={meshRef}
