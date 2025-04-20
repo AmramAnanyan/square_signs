@@ -1,3 +1,4 @@
+import './style.css';
 const CircleLoader = ({
   className = '',
   size = 6,
@@ -5,11 +6,7 @@ const CircleLoader = ({
   className?: string;
   size?: number;
 }) => {
-  return (
-    <div
-      className={`w-${size} h-${size} border-4 border-spacing-2 border-t-black rounded-full animate-spin ${className}`}
-    />
-  );
+  return <div className={`w-${size} h-${size} circle-loader  ${className}`} />;
 };
 
 export default CircleLoader;

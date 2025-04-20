@@ -1,0 +1,7 @@
+@tailwind components;
+
+@layer components {
+  .circle-loader {
+    @apply border-4 border-spacing-2 border-t-black rounded-full animate-spin;
+  }
+}
