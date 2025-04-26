@@ -1,6 +1,15 @@
 import { Image, Canvas } from 'fabric';
 import { DownloadTypes } from '../../constants/toolbarConstants';
 
+import React, {
+  Attributes,
+  forwardRef,
+  ForwardRefRenderFunction,
+  NamedExoticComponent,
+  PropsWithoutRef,
+  RefAttributes,
+} from 'react';
+
 export const scaleImage = (
   img: Image | any,
   targetWidth: number,
@@ -54,4 +63,13 @@ export const downloadCanvasAsImage = (
       break;
     default:
   }
+};
+
+export const forwardRefWithDisplayName = <T, P>(
+  component: ForwardRefRenderFunction<T, PropsWithoutRef<P>>,
+  displayName: string
+): NamedExoticComponent<PropsWithoutRef<P> & RefAttributes<T>> => {
+  const Wrapped = React.forwardRef(component);
+  Wrapped.displayName = displayName;
+  return Wrapped;
 };
